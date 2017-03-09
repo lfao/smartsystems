@@ -25,23 +25,23 @@ import paho.mqtt.client as mqtt
 from time import sleep
 devid = 1
 
+topic1 = "/1234/DevID37101{0:02}/cmd".format(devid)
+topic3 = "/1234/DevID37101{0:02}/cmdexe".format(devid)
+
 def on_connect(client, userdata, flags, rc):
 	print("Connected with result code " + str(rc))
-	client.subscribe("/1234/DevID37101{0:02}/cmd".format(devid))
-	print ("/1234/DevID37101{0:02}/cmd".format(devid))
-#client.subscribe("/1234/DevID3710117/#")
+	client.subscribe(topic1)
+	print (topic1)
 
-topic1 = "/1234/DevID37101{0:02}/attrs/commandE_info".format(devid)
-topic2 = "/1234/DevID37101{0:02}/attrs/commandE_status".format(devid)
-topic3 = "/1234/DevID37101{0:02}/cmdexe".format(devid)
+
+
 
 def on_message(client, userdata, msg):
 	sleep(0.4);
 	print(msg.topic + " " + str(msg.payload))
-	client.publish(topic3, '{"CommandE":"3"}')
-	#client.publish(topic2, "OK")
-	
-	
+	client.publish(topic3, '{"CommandE":"6"}')	
+
+
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
