@@ -3,17 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>31e9cefc-e812-4907-b52c-b655e50c3952</ProjectGuid>
+    <ProjectGuid>65dae519-3326-484b-8839-b3d7acbad40f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>IoT_Test.py</StartupFile>
+    <StartupFile>CityIotDevices.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>IoT_Test</Name>
-    <RootNamespace>IoT_Test</RootNamespace>
-    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
-    <InterpreterVersion>3.5</InterpreterVersion>
+    <Name>CityIotDevices</Name>
+    <RootNamespace>CityIotDevices</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,23 +22,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="commands.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="command_test2.py" />
-    <Compile Include="command_test.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IoTAgent.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IoT_Test.py" />
-    <Compile Include="mqtt_test.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.5" />
+    <Compile Include="city.py" />
+    <Compile Include="CityIotDevices.py" />
+    <Compile Include="cityScheduler.py" />
+    <Compile Include="commands.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

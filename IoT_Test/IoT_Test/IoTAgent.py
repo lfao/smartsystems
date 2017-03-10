@@ -18,7 +18,7 @@ def CreateIotAgent(*devices) :
     response = requests.post('http://130.206.112.29:5050/iot/devices/', json = deviceList,
                   headers = {'Fiware-Service': firewareService, 'Fiware-ServicePath' : '/environment'}) #, 'Content-Type' : 'application/json'
     r = response.json()
-    print r #('{}: "{}"'.format(r['name'], r['message']))
+    print (r) #('{}: "{}"'.format(r['name'], r['message']))
 
 
 def CreateIotDeviceJson(id, attributes = [], lazy = [], commands = [], static_attributes = []):
