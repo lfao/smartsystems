@@ -7,8 +7,8 @@
 
 import city
 
-#muc = city.createCity(cityOwaId = 6940463, cityId = 'Muc', cityName = 'Munich')
-#print (muc)
+muc = city.createCity(cityOwaId = 6940463, cityId = 'Muc', cityName = 'Munich')
+print (muc)
 
-muc = city.city(cityOwaId = 6940463, cityId = 'Muc')
-muc.update()
+#muc = city.city(cityOwaId = 6940463, cityId = 'Muc')
+#muc.update()

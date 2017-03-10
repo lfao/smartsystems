@@ -15,7 +15,7 @@ FIELD_MATCHES = [(('t', 'Temperatur', 'Kelvin'),[u'main', u'temp']),
 SERVER = '130.206.112.29'
 
 class city(object):
-    """description of class"""
+    """Class to Map OpenWeatherMap to MQTT"""
     IOT_API_KEY = 1234
     OWM_KEY = 'abacdae90c8800879db8e02327da1f92'
     OWM_URL = 'http://api.openweathermap.org/data/2.5/weather?id={}&appid={}'
@@ -28,29 +28,17 @@ class city(object):
         self.cityOwaId = cityOwaId
         self.deviceId = city.DEVICE_BASISNAME + cityId
         self.mqttClient = mqtt.Client()
-        #print "asdf"
-        self.mqttClient.connect(city.MQTT_SERVER, city.MQTT_PORT)
-        #print "asd"        
+        self.mqttClient.connect(city.MQTT_SERVER, city.MQTT_PORT)        
 
     def getOwmJsonInfo(self):
-        url = city.OWM_URL.format(self.cityOwaId, city.OWM_KEY)
-        #print (url)
-        r = requests.get(url)
-        #print( r.json() )
+        r = requests.get(city.OWM_URL.format(self.cityOwaId, city.OWM_KEY))
         return r.json() if 200 == r.status_code else None
     
     @staticmethod
     def convertOwmToIot(jsonDict):
-        #print jsonDict
-        #print jsonDict[u'temperature']
-        #print operator.getitem(jsonDict,u'temperature')
-        newDict = { iotName : reduce(operator.getitem, owmPath, jsonDict) for iotName, owmPath in city.UPDATE_FIELDS }
-        #print(newDict)
-        return newDict
+        return { iotName : reduce(operator.getitem, owmPath, jsonDict) for iotName, owmPath in city.UPDATE_FIELDS }
 
     def putIotJson(self, jsonDict):
-        #print jsonDict
-        #print json.dumps(jsonDict)
         self.mqttClient.publish("/{}/{}/attrs/".format(city.IOT_API_KEY, self.deviceId), json.dumps(jsonDict))
 
     def update(self):
@@ -59,16 +47,18 @@ class city(object):
             self.putIotJson(city.convertOwmToIot(jsonDict))
         return jsonDict
 
-    #def __repr__(self):
-    #    return "<Test a:%s b:%s>" % (self.a, self.b)
+    def __repr__(self):
+        return str((self.cityOwaId, self.deviceId))
 
     def __str__(self):
         return 'IOT Name = {}, OWA City ID = {}'.format(self.deviceId, self.cityOwaId)
 
-def createCity(cityOwaId = 6940463, cityId = 'muc', cityName = None):
+def createCity(cityOwaId, cityId, cityName = None):
     FIWARE_SERVICE_PATH = '/environment'
     FIWARE_SERVICE = 'icai31701'
-    IOT_AGENT_URL = 'http://130.206.112.29:5050/iot/devices/'
+    IOT_SERVER = SERVER
+    IOT_PORT = 5050
+    IOT_AGENT_URL = 'http://{}:{}/iot/devices/'.format(IOT_SERVER, IOT_PORT)
     
     theCity = city(cityOwaId,cityId)
 
@@ -78,9 +68,6 @@ def createCity(cityOwaId = 6940463, cityId = 'muc', cityName = None):
     if not cityName:
         cityName = jsonDict['name']
     country = jsonDict['sys']['country']
-        
-    #('contextBrokerName', 'mqttName', 'type', ['owmCathegory', 'owmField']) 
-
         
     static_attributes = [('Position', 'geo:point',"{},{}".format(latitude, longitude)), ('Countrycode', 'string', country), ('Name', 'string', cityName)]
     commands = []
@@ -95,16 +82,12 @@ def createCity(cityOwaId = 6940463, cityId = 'muc', cityName = None):
             }
 
     deviceList = {"devices" : [device]}
-            
-    #print "request"
-    #print deviceList
+
     response = requests.post(IOT_AGENT_URL, json = deviceList,
                     headers = {'Fiware-Service': FIWARE_SERVICE, 'Fiware-ServicePath' : FIWARE_SERVICE_PATH})
     r = response.json()
-    #print "response"
-    #print r #('{}: "{}"'.format(r['name'], r['message']))
 
-    theCity.putIotJson(theCity.convertOwmToIot(jsonDict))    
+    theCity.putIotJson(city.convertOwmToIot(jsonDict))    
 
     return theCity
 
