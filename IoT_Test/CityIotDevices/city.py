@@ -92,14 +92,15 @@ class city(object):
         return 'IOT Name = {}, OWA City ID = {}'.format(self.deviceId, self.cityOwaId)
 
 def createCity(cityOwaId, cityId, cityName = None):
+    REPLACE_ENTITY = True
     FIWARE_SERVICE_PATH = '/environment'
     FIWARE_SERVICE = 'icai31701'
     IOT_SERVER = SERVER
     IOT_PORT = 5050
-    #CONTEXTBROKER_SERVER = SERVER
-    #CONTEXTBROKER_PORT = 1026
+    CONTEXTBROKER_SERVER = SERVER
+    CONTEXTBROKER_PORT = 1026
     IOT_AGENT_URL = 'http://{}:{}/iot/devices/'.format(IOT_SERVER, IOT_PORT)
-    #CONTEXTBROKER_URL = 'http://{}:{}/v2/entities/'.format(CONTEXTBROKER_SERVER,CONTEXTBROKER_PORT)
+    CONTEXTBROKER_URL = 'http://{}:{}/v2/entities/'.format(CONTEXTBROKER_SERVER,CONTEXTBROKER_PORT)
     
     logger = logging.getLogger(__name__)
 
@@ -129,26 +130,41 @@ def createCity(cityOwaId, cityId, cityName = None):
 
     response = requests.get(IOT_AGENT_URL + iotAgentId, headers = {'Fiware-Service': FIWARE_SERVICE, 'Fiware-ServicePath' : FIWARE_SERVICE_PATH})
     if 200 == response.status_code:
-        logger.info ("City {} iot agent does already exist. Deleting iot agent!".format(cityId))
+        logger.info ("{}: IOT agent does already exist. Deleting IOT agent!".format(cityId))
         response = requests.delete(IOT_AGENT_URL + iotAgentId, headers = {'Fiware-Service': FIWARE_SERVICE, 'Fiware-ServicePath' : FIWARE_SERVICE_PATH})
         if 204 == response.status_code:
-            logger.info ("City {} successfully deleted".format(cityId))
+            logger.info ("{}: IOT agent successfully deleted".format(cityId))
         else:
-            logger.error("City {} could not be deleted. Http error code: {}".format(cityId, response.status_code)) 
+            logger.error("{}: IOT agent could not be deleted. Http error code: {}".format(cityId, response.status_code)) 
 
-    logger.info("Create city {} iot agent.".format(cityId))
+
+    response = requests.get(CONTEXTBROKER_URL + iotAgentName, headers = {'Fiware-Service': FIWARE_SERVICE, 'Fiware-ServicePath' : FIWARE_SERVICE_PATH})
+    if 200 == response.status_code:
+        if REPLACE_ENTITY:
+            logger.info ("{}: Entity does already exist. Deleting entity!".format(cityId))
+            response = requests.delete(CONTEXTBROKER_URL + iotAgentName, headers = {'Fiware-Service': FIWARE_SERVICE, 'Fiware-ServicePath' : FIWARE_SERVICE_PATH})
+            if 204 == response.status_code:
+                logger.info ("{}: Entity successfully deleted".format(cityId))
+            else:
+                logger.error("{}: Entity could not be deleted. Http error code: {}".format(cityId, response.status_code)) 
+        else:
+            logger.info ("{}: Entity does already exist.".format(cityId))
+
+
+
+    logger.info("{}: Create IOT agent.".format(cityId))
     response = requests.post(IOT_AGENT_URL, json = deviceList,
                     headers = {'Fiware-Service': FIWARE_SERVICE, 'Fiware-ServicePath' : FIWARE_SERVICE_PATH})
     if 201 == response.status_code:
-        logger.info ("City {} iot agent has been created!".format(cityId))
+        logger.info ("{}: IOT agent has been created!".format(cityId))
     else:
-        logger.error("City {} could not be created. Http error code: {}".format(cityId, response.status_code)) 
+        logger.error("{}: IOT agent could not be created. Http error code: {}".format(cityId, response.status_code)) 
 
-    logger.info("Update city {}".format(cityId))
+    logger.info("{}: Update city".format(cityId))
     if theCity.putIotJson(city.convertOwmToIot(jsonDict)):
-        logger.info("City {} update sucessfully finished".format(cityId))
+        logger.info("{}: Update sucessfully finished".format(cityId))
     else:
-         logger.error("City {} could not be updated".format(cityId))
+         logger.error("{}: city could not be updated".format(cityId))
 
     return theCity
 
