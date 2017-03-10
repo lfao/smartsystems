@@ -2,5 +2,4 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/IoT_Test/IoT_Test/mqtt_test.pyc
-/IoT_Test/IoT_Test/IoTAgent.pyc
+*.pyc

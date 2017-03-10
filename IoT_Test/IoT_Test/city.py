@@ -1,12 +1,8 @@
-#import json
 import paho.mqtt.client as mqtt
 import requests
 from functools import reduce
 import operator
 import json
-
-#mucowm = {"coord":{"lon":11.58,"lat":48.14},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04n"}],"base":"stations","main":{"temp":282.16,"pressure":1019,"humidity":93,"temp_min":281.15,"temp_max":283.15},"visibility":10000,"wind":{"speed":4.1,"deg":240},"clouds":{"all":75},"dt":1489083600,"sys":{"type":1,"id":4914,"message":0.2293,"country":"DE","sunrise":1489037842,"sunset":1489079481},"id":6940463,"name":"Altstadt","cod":200}
-
 
 FIELD_MATCHES = [(('t', 'Temperatur', 'Kelvin'),[u'main', u'temp']), 
                 (('h', 'Humidity', '%'),[u'main', u'humidity']),
@@ -85,7 +81,6 @@ def createCity(cityOwaId, cityId, cityName = None):
 
     response = requests.post(IOT_AGENT_URL, json = deviceList,
                     headers = {'Fiware-Service': FIWARE_SERVICE, 'Fiware-ServicePath' : FIWARE_SERVICE_PATH})
-    r = response.json()
 
     theCity.putIotJson(city.convertOwmToIot(jsonDict))    
 
@@ -93,4 +88,4 @@ def createCity(cityOwaId, cityId, cityName = None):
 
 
 if __name__ == '__main__':
-    test = city(cityOwaId = 6940463, cityId = 'Muc', cityName = 'Munich')
+    test = city(cityOwaId = 6940463, cityId = 'Muc')

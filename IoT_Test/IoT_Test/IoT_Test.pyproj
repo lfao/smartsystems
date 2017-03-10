@@ -25,6 +25,9 @@
     <Compile Include="city.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="cityScheduler.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="command_test.py">
       <SubType>Code</SubType>
     </Compile>
