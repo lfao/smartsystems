@@ -25,15 +25,24 @@ logging.basicConfig(level=logging.INFO)
 
 
 
-cityScheduler.repeat(1.0/6,
-    city.createCityByName('Berlin'),
-    city.createCityByName('Munich'),
-    city.createCityByName('New York'),
-    city.createCityByName('Shanghai'),
-    city.createCityByName('Madrid'), 
-    city.createCityByName('Sydney'), 
-    city.createCityByName('Cape Town'))
+#cityScheduler.repeat(1.0/6,
+#    city.createCityByName('Berlin'),
+#    city.createCityByName('Munich'),
+#    city.createCityByName('New York'),
+#    city.createCityByName('Shanghai'),
+#    city.createCityByName('Madrid'), 
+#    city.createCityByName('Sydney'), 
+#    city.createCityByName('Cape Town'))
 
+
+cityScheduler.repeat(1.0/6,
+    city.getCityByName('Berlin'),
+    city.getCityByName('Munich'),
+    city.getCityByName('New York'),
+    city.getCityByName('Shanghai'),
+    city.getCityByName('Madrid'), 
+    city.getCityByName('Sydney'), 
+    city.getCityByName('Cape Town'))
 
 #print muc.update()
 #while True:
