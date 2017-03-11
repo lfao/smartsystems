@@ -1,7 +1,9 @@
-import city
-import cityScheduler
+#!/usr/bin/env python3
 import time
 import logging
+
+import city
+import cityScheduler
 
 logging.basicConfig(level=logging.INFO)
 
@@ -14,13 +16,23 @@ logging.basicConfig(level=logging.INFO)
 #sha = city.createCity(cityOwaId = 1796236, cityId = 'SHA')
 #print sha
 
+#muc = city.city(cityOwmId = 6940463, cityId = 'MUC')
+#mad = city.city(cityOwmId = 3117735, cityId = 'MAD')
+#nyc = city.city(cityOwmId = 5128581, cityId = 'NYC')
+#sha = city.city(cityOwmId = 1796236, cityId = 'SHA')
 
-muc = city.city(cityOwaId = 6940463, cityId = 'MUC')
-mad = city.city(cityOwaId = 3117735, cityId = 'MAD')
-nyc = city.city(cityOwaId = 5128581, cityId = 'NYC')
-sha = city.city(cityOwaId = 1796236, cityId = 'SHA')
+#city.createCityByName('Berlin')
 
-cityScheduler.repeat([muc, mad, nyc, sha], 1.0/6)
+
+
+cityScheduler.repeat(1.0/6,
+    city.createCityByName('Berlin'),
+    city.createCityByName('Munich'),
+    city.createCityByName('New York'),
+    city.createCityByName('Shanghai'),
+    city.createCityByName('Madrid'), 
+    city.createCityByName('Sydney'), 
+    city.createCityByName('Cape Town'))
 
 
 #print muc.update()

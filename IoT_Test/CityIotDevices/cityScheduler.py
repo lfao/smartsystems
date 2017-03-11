@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sched, time, datetime, logging
 
 def do_updates(s, theCity, seconds, logger): 
@@ -5,7 +6,7 @@ def do_updates(s, theCity, seconds, logger):
     theCity.update()
     s.enter(seconds, 1, do_updates, (s, theCity, seconds, logger))
 
-def repeat(theCityList, minutes):
+def repeat(minutes, *theCityList):
     s = sched.scheduler(time.time, time.sleep)
     logger = logging.getLogger(__name__)
     for i in range(len(theCityList)):
