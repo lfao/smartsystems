@@ -23,6 +23,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="city.py" />
+    <Compile Include="city_creators.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="city_definitions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py" />
     <Compile Include="city_scheduler.py" />
     <Compile Include="city_commands.py" />
