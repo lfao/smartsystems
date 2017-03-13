@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>65dae519-3326-484b-8839-b3d7acbad40f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>CityIotDevices.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,9 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="city.py" />
-    <Compile Include="CityIotDevices.py" />
-    <Compile Include="cityScheduler.py" />
-    <Compile Include="commands.py" />
+    <Compile Include="main.py" />
+    <Compile Include="city_scheduler.py" />
+    <Compile Include="city_commands.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

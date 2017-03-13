@@ -2,11 +2,11 @@
 import psutil
 import time
 
-def getCpuLoad(_, time):
+def get_cpu_load(_, time):
     return psutil.cpu_percent(interval=float(time))
 
-def getUpdateCount(obj, _):
-    return obj.updateCounter
+def get_update_count(obj, _):
+    return obj.update_counter
 
 #def getTimezone(city, _):
 #    logger = logging.getLogger(__name__)
