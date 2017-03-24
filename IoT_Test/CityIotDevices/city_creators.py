@@ -131,7 +131,7 @@ def get_city_owm_id_and_iata(name):
     cities = r.json()['response']['cities']
     iata = cities[0]['code']
     iata_name = cities[0]['name']
-    logger.info ('IATA: {}, OWM_ID: {},'.format(owa_id,iata))
+    logger.info ('IATA: {}, OWM_ID: {},'.format(iata, owa_id))
     if (not(name == owa_name == iata_name)):
         logger.warning('The names are different! Name: {}, OWM_Name: {}, IATA_Name: {}'.format (name, owa_name, iata_name))
     return (owa_id,iata)
