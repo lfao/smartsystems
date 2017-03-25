@@ -10,6 +10,8 @@ def repeat(minutes, *city_list, cities_delay_seconds = 1):
     """
     the_scheduler = sched.scheduler(time.time, time.sleep)
     logger = logging.getLogger(__name__)
+    sumErrorCounter = 0
+    currentErrorCounter = 0
 
     def do_updates(the_city): 
         """
@@ -19,7 +21,15 @@ def repeat(minutes, *city_list, cities_delay_seconds = 1):
         """
 
         logger.info("Update {} at {}".format(the_city.device_id, datetime.datetime.now()))
-        the_city.update()
+        try:
+            the_city.update()
+            currentErrorCounter = 0
+        except e:
+            currentErrorCounter += 1
+            sumErrorCounter += 1
+            logger.error("Exception occured. Sum of all exceptions: {} Sum of continues exceptions: {}".format(sumErrorCounter, currentErrorCounter))
+            logger.error(e)
+
         the_scheduler.enter(minutes * 60, 1, do_updates, (the_city,))
     
     # start every city at the beginning with an offset
