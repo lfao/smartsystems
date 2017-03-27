@@ -7,6 +7,8 @@ import city_creators
 import city_scheduler
 
 logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(filename='city_emulator.log',level=logging.INFO)
+
 
 # two ways to create city object
 #muc = city.city(city_owm_id = 6940463, iata = 'MUC') 
