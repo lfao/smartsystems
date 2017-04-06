@@ -71,8 +71,8 @@ class city(object):
         r = requests.get(city.OWM_URL.format(self.city_owm_id, city.OWM_KEY))
         return r.json() if 200 == r.status_code else None
     
-    @staticmethod
-    def convert_owm_to_mqtt(dict_owm_json):
+    @classmethod
+    def convert_owm_to_mqtt(cls, dict_owm_json):
         """
         Convert weather info being returned from openweathermap into the weather info which could be pushed 
         Keyword arguments:
@@ -82,7 +82,7 @@ class city(object):
         """
         # this iterates trough all active attributes and extract the value of the json of openweathermap
         # the function reduce walks along the nested dictionary dict_owm_json with the help of the path of keys (path_owm)
-        return { name_mqtt : functools.reduce(operator.getitem, path_owm, dict_owm_json) for name_mqtt, path_owm in city.ACTIVE_ATTRIBUTES }
+        return { name_mqtt : functools.reduce(operator.getitem, path_owm, dict_owm_json) for name_mqtt, path_owm in cls.ACTIVE_ATTRIBUTES }
 
     def put_mqtt_json(self, dict_mqtt_json):
         """
