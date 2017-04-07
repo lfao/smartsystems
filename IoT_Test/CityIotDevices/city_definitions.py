@@ -33,7 +33,7 @@ ATTRIBUTE_MATCHES = [(('t', 'Temperatur', 'Kelvin'),[u'main', u'temp']),
 COMMAND_MATCHES = [(('l','CpuLoad', '%'), city_commands.get_cpu_load), (('u', 'UpdateCount','int'), city_commands.get_update_count)]
 
 SERVER = '130.206.112.29'  # The IP of the MQTT, IOT and the Context Broker API
-USER = '37101'
+USER = '31701'
 
 ## Definitions for cities only
 MQTT_API_KEY = 1234  # The apikey for using the MQTT API
