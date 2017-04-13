@@ -94,7 +94,7 @@ class city(object):
         """
         self.update_counter += 1
         self.mqtt_client.publish("/{}/{}/attrs/".format(city.MQTT_API_KEY, self.device_id), json.dumps(dict_mqtt_json))
-        return True # how to check if it was successfull?
+        return True # how to check if it was sucessfull?
 
     def update(self):
         """

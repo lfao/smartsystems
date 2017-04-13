@@ -18,17 +18,17 @@ ATTRIBUTE_MATCHES = [(('t', 'Temperatur', 'Kelvin'),[u'main', u'temp']),
                      (('c', 'Clouds', '%'),[u'clouds',u'all'])]
 
 
-# This is a list of the active atributes of the iot devices
+# This is a list of the active attributes of the iot devices
 # One tuple consist of a tuple and a list
 # ((object_id, object_name, type), functionpointer)
 # object_id -- the ID being should for MQTT communication if NGSIv2 would be finished
 # object_name -- the name of the command in context broker (only used for creating an iot agent)
-# type -- the type of the value assotiated to this command (only used for creating an iot agent)
+# type -- the type of the value associated to this command (only used for creating an iot agent)
 # functionpointer -- a function wich should be carried out when command is called.
-#                    the function should be in in the folowing signature
+#                    the function should be in in the following signature
 # retvalue = function(cityObject, paramvalue)
 # retvalue -- the value being pushed to context broker after finishing this command (use dummy if not required)
-# cityObject -- the city which is ordered to carry out the commmand (use dummy if not required)
+# cityObject -- the city which is ordered to carry out the command (use dummy if not required)
 # paramvalue -- the value being handed over by context broker when triggering the command (use dummy if not required)
 COMMAND_MATCHES = [(('l','CpuLoad', '%'), city_commands.get_cpu_load), (('u', 'UpdateCount','int'), city_commands.get_update_count)]
 
