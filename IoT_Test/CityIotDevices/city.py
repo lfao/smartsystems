@@ -132,7 +132,7 @@ class city(object):
                 retval = city.COMMANDS[command_name](self, command_value);
                 self.logger.info("Result: {}".format(retval))
                 return retval
-            except ex:
+            except Exception as ex:
                 self.logger.error(ex)
                 return "Error in {}({}): {}".format(command_name,command_value, ex)
         

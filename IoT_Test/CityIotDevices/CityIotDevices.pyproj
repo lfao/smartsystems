@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="watchdog.py" />
     <Compile Include="city.py" />
     <Compile Include="city_creators.py">
       <SubType>Code</SubType>
