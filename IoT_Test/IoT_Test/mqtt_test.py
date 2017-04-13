@@ -35,10 +35,15 @@ import paho.mqtt.client as mqtt
 
 mqttc = mqtt.Client()
 mqttc.connect('130.206.112.29', 1883)
-device = 'DevID3710115'
+#device = 'DevID3710115'
+device = 'DevID31701Car6'
 
-mqttc.publish("/1234/{}/attrs/a".format(device), str(10))
 
+mqttc.publish("/1234/{}/attrs".format(device), '{s :{ "frontRight": "120", "frontLeft": "110", "backRight": "115", "backLeft": "130" } }')
 
-mqttc.publish("/1234/{}/attrs/".format(device), '{"a":"11","b":"9"}')
+mqttc.publish("/1234/DevID31701Car6/attrs", '{"s" :{ "frontRight": 120, "frontLeft": 110, "backRight": 115, "backLeft": 130 } }')
+
+#mqttc.publish("/1234/{}/attrs/".format(device), '{"a":"11","b":"9"}')
 #mqttc.publish("/1234/{}/attrs/".format(device), 'a|13|b|8')
+
+

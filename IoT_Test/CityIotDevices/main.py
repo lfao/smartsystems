@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.INFO)
 #city_creators.delete_contextbroker_entity('SIN')
 
 # create city with or without iot agent by an list of city names
-city_name_list = ['Berlin', 'Munich', 'New York', 'Shanghai', 'Madrid', 'Sydney', 'Cape Town']
+city_name_list = ['Berlin', 'Munich', 'New York', 'Shanghai', 'Madrid', 'Sydney', 'Cape Town', 'Buenos Aires']
 city_list = [city_creators.get_city_by_name(name) for name in city_name_list] 
 #city_list = [city_creators.create_city_by_name(name) for name in city_name_list] 
 

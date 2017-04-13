@@ -21,13 +21,13 @@ def CreateIotAgent(*devices) :
     print (r) #('{}: "{}"'.format(r['name'], r['message']))
 
 
-def CreateIotDeviceJson(id, attributes = [], lazy = [], commands = [], static_attributes = []):
+def CreateIotDeviceJson(id, attributes = [], lazy = [], commands = [], static_attributes = [], entity_type = "device", entity_basisname = "DevEnt"):
     def convertAttributes(attributes):
         return [{ "object_id" : aId, "name" : aName, "type" : aType } for aId, aName, aType in attributes ]
 
-    device = { "device_id" : "DevID37101{0:02}".format(id), 
-                "entity_name" : "DevEnt{}".format(id), 
-                "entity_type" : "Device", 
+    device = { "device_id" : "DevID31701{}".format(id), 
+                "entity_name" : "{}{}".format(entity_basisname,id), 
+                "entity_type" : entity_type, 
                 "transport" : "MQTT"
             }
 

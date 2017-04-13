@@ -26,7 +26,7 @@ def create_city(owa_id, iata, city_name = None, replace_entity = True):
     """
     
     IOT_ACTIVE_ATTRIBUTES = city_definitions.IOT_ACTIVE_ATTRIBUTES
-    IOT_ACTIVE_ATTRIBUTES = city_definitions.IOT_ACTIVE_ATTRIBUTES   
+    IOT_COMMANDS = city_definitions.IOT_COMMANDS   
 
     logger = logging.getLogger(__name__)
 
@@ -45,10 +45,10 @@ def create_city(owa_id, iata, city_name = None, replace_entity = True):
     
     device = { "device_id" : DEVICE_BASISNAME_MQTT + iata, 
                 "entity_name" : DEVICE_BASISNAME_CONTEXTBROKER + iata, 
-                "entity_type" : "Device", 
+                "entity_type" : "Weather_Measuring_Station", 
                 "transport" : "MQTT",
                 "attributes" : [{ "object_id" : a_id, "name" : a_name, "type" : a_type } for (a_id, a_name, a_type) in IOT_ACTIVE_ATTRIBUTES],
-                "commands" : [{ "object_id" : a_id, "name" : a_name, "type" : a_type } for (a_id, a_name, a_type) in IOT_ACTIVE_ATTRIBUTES],
+                "commands" : [{ "object_id" : a_id, "name" : a_name, "type" : a_type } for (a_id, a_name, a_type) in IOT_COMMANDS],
                 "static_attributes" : [{ "name" : a_id, "type" : a_name, "value" : a_type } for a_id, a_name, a_type in iot_static_attributes]  
             }
 
