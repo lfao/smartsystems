@@ -15,7 +15,7 @@ qtCreatorFile = "GUI.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 ACTIVE_ATTRIBUTES = [name_tupel for (name_tupel, _) in city_definitions.ATTRIBUTE_MATCHES]
 
-print ACTIVE_ATTRIBUTES
+print (ACTIVE_ATTRIBUTES)
 
 class MyApp(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):

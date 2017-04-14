@@ -1,9 +1,0 @@
-#!/usr/bin/env python3
-import psutil
-import time
-
-def getCpuLoad(_, time):
-    return psutil.cpu_percent(interval=float(time))
-
-def getUpdateCount(obj, _):
-    return obj.updateCounter
