@@ -6,7 +6,7 @@
     <ProjectGuid>23f5de40-babb-4a3f-b258-1d2ac7abcd83</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>watchdog.py</StartupFile>
-    <SearchPath>..\CityIotDevices\</SearchPath>
+    <SearchPath>..\Common\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>CityWatchdog</Name>

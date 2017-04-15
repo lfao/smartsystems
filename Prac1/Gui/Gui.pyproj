@@ -6,7 +6,7 @@
     <ProjectGuid>7b4c7916-d7c6-429f-ad88-062ec16aae92</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>city_consumer.py</StartupFile>
-    <SearchPath>..\CityIotDevices\</SearchPath>
+    <SearchPath>..\Common\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>Gui</Name>
@@ -22,7 +22,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="city_consumer.py" />
-    <Compile Include="test_consumer.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GUI.ui" />

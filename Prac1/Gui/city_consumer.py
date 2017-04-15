@@ -1,10 +1,15 @@
 import paho.mqtt.client as mqtt
-import city_definitions
 import sys
 from PyQt4 import QtCore, QtGui, uic
 import json
 import collections
 from functools import partial
+
+try:
+    import city_definitions
+except:
+    sys.path.append('../Common')
+    import city_definitions
 
 MQTT_API_KEY = city_definitions.MQTT_API_KEY
 MQTT_SERVER = city_definitions.SERVER

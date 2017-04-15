@@ -7,7 +7,13 @@ import datetime
 import re
 import collections
 
-import city_definitions
+try:
+    import city_definitions
+except:
+    import sys
+    sys.path.append('../Common')
+    import city_definitions
+
 
 class watchdog(object):
     """
@@ -171,3 +177,10 @@ watchdog.COMMANDS['AddCity'] =  watchdog.add_city
 watchdog.COMMANDS['RemoveCity'] =  watchdog.remove_city
 #watchdog.COMMAND_MATCHES.append( (('a','AddCity', 'Name'), watchdog.add_city))
 #watchdog.COMMAND_MATCHES.append( (('r','RemoveCity', 'Name'), watchdog.remove_city))
+
+if __name__ is '__main__':
+    import time
+    w = watchdog();
+    while True:
+        w.update()
+        time.sleep(15 * 60)

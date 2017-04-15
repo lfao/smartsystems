@@ -9,6 +9,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CityWatchdog", "CityWatchdo
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Gui", "Gui\Gui.pyproj", "{7B4C7916-D7C6-429F-AD88-062EC16AAE92}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Common", "Common\Common.pyproj", "{422CA6C3-268D-43BC-B5E0-2CEA4733F371}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,12 @@ Global
 		{7B4C7916-D7C6-429F-AD88-062EC16AAE92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B4C7916-D7C6-429F-AD88-062EC16AAE92}.Release|x64.ActiveCfg = Release|Any CPU
 		{7B4C7916-D7C6-429F-AD88-062EC16AAE92}.Release|x86.ActiveCfg = Release|Any CPU
+		{422CA6C3-268D-43BC-B5E0-2CEA4733F371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422CA6C3-268D-43BC-B5E0-2CEA4733F371}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{422CA6C3-268D-43BC-B5E0-2CEA4733F371}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{422CA6C3-268D-43BC-B5E0-2CEA4733F371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422CA6C3-268D-43BC-B5E0-2CEA4733F371}.Release|x64.ActiveCfg = Release|Any CPU
+		{422CA6C3-268D-43BC-B5E0-2CEA4733F371}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

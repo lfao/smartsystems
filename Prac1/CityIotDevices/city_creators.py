@@ -4,7 +4,13 @@ import requests
 import logging
 
 from city import city
-import city_definitions
+
+try:
+    import city_definitions
+except:
+    import sys
+    sys.path.append('../Common')
+    import city_definitions
 
 FIWARE_SERVICE_PATH = city_definitions.FIWARE_SERVICE_PATH
 FIWARE_SERVICE = city_definitions.FIWARE_SERVICE

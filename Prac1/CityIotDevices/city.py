@@ -6,7 +6,12 @@ import logging
 import functools
 import operator
 
-import city_definitions
+try:
+    import city_definitions
+except:
+    import sys
+    sys.path.append('../Common')
+    import city_definitions
 
 class city(object):
     """
