@@ -6,6 +6,7 @@ import time
 import datetime
 import re
 import collections
+import sched
 
 try:
     import city_definitions
@@ -24,8 +25,6 @@ class watchdog(object):
     MQTT_PORT = city_definitions.MQTT_PORT # The Port of the MQTT API 
     DEVICE_BASISNAME = city_definitions.DEVICE_BASISNAME_MQTT # The first part of the names of Devices in MQTT API
     COMMANDS = dict()
-    
-    TIME_DELTA = datetime.timedelta(minutes = 15)
 
     ATTRIBUTE_CITY_ERRORS = "CityErrors"
     ATTRIBUTE_CITY_ERRORS_MQTT = "ec"
@@ -33,7 +32,7 @@ class watchdog(object):
     ATTRIBUTE_SENSOR_ERRORS_MQTT = "es"
 
     WATCHDOG_ATTRIBUTES = { name_mqtt: name_rest for ((name_mqtt, name_rest, _), _) in city_definitions.ATTRIBUTE_MATCHES}
-    
+    WATCHDOG_ATTRIBUTES["er"] = "Doesnotexist"
     
     COMBOUND_ATTRIBUT_LAST_NAME = "LastUpdate"
     COMBOUND_ATTRIBUT_MQTT_NAME = "MQTT"
@@ -44,17 +43,18 @@ class watchdog(object):
 
     CITIES = ['DevID31701MUC']    
     
-    def __init__(self):
+    def __init__(self, time_delta = 15 * 60):
         """
         Constructor of Watchdog
         """
-       
+        self.TIME_DELTA = datetime.timedelta(seconds = time_delta)
         self.device_id = watchdog.DEVICE_BASISNAME + "Watchdog" # the id of the watchdog in MQTT
         self.mqtt_client = mqtt.Client()
         self.topic_command = "/{}/{}/cmd".format(watchdog.MQTT_API_KEY, self.device_id) # topic to listen for getting commands
         self.topic_command_executed = "/{}/{}/cmdexe".format(watchdog.MQTT_API_KEY, self.device_id) # topic to puplish the results of processed commands
         self.logger = logging.getLogger(__name__)
         self.city_names_dict = dict()
+
         def on_connect(client, userdata, flags, rc):
             self.logger.info("MQTT client sucessfully connected with result code {}".format(rc))
             client.subscribe(self.topic_command)
@@ -77,39 +77,54 @@ class watchdog(object):
         self.mqtt_client.on_message = on_message
         self.mqtt_client.connect(watchdog.MQTT_SERVER, watchdog.MQTT_PORT) 
         self.mqtt_client.loop_start()      
+    
+    def loop_start(self, seconds = None):
+        """
+        triggers update in each given city every given time interval
+        Keyword arguments:
+        minutes -- time delay between two updates in minutes
+        """
+        if seconds == None:
+            seconds = float(self.TIME_DELTA.total_seconds())
+            print(seconds)
 
-   
-    def update(self):
+        the_scheduler = sched.scheduler(time.time, time.sleep)
+
+        def do_check_cities(): 
+            """
+            triggers one update and enter a new time to scheduler
+            """
+            self.check_cities()
+            the_scheduler.enter(seconds, 1, do_check_cities, ())
+
+        # start every city at the beginning with an offset
+        the_scheduler.enter(seconds, 1, do_check_cities, ())
+
+        # start the scheduler to run forever
+        the_scheduler.run()
+
+
+    def check_cities(self):
         """
 
         """
         now = datetime.datetime.now()
         city_errors = { city_mqtt_name : str(max(city_attributes.values()))
             for city_mqtt_name, city_attributes in self.city_names_dict.items() 
-            if all(update_time + watchdog.TIME_DELTA < now for update_time in city_attributes.values())}
+            if all(update_time + self.TIME_DELTA < now for update_time in city_attributes.values())}
         
         sensor_errors = [{ COMBOUND_CITY_NAME : city_mqtt_name, COMBOUND_ATTRIBUT_LAST_UPDATE : str(update_time),
             COMBOUND_ATTRIBUT_REST_NAME : watchdog.WATCHDOG_ATTRIBUTES[attribute_name], COMBOUND_ATTRIBUT_MQTT_NAME : attribute_name } 
             for city_mqtt_name, city_attributes in self.city_names_dict.items() if city_mqtt_name not in city_errors
-            for attribute_name , update_time in city_attributes if update_time + watchdog.TIME_DELTA < now]
+            for attribute_name , update_time in city_attributes if update_time + self.TIME_DELTA < now]
         
-        #print (self.city_names_dict)
-        
-        #sensor_errors = [{"adf" : 2}, {"asdf" : 3}]
+        print (str(city_errors))
+        print (str(sensor_errors))
 
-        #print (json.dumps(city_errors))
-        #print (json.dumps(sensor_errors))
-        
-        #self.mqtt_client.publish("/{}/{}/attrs/{}".format(watchdog.MQTT_API_KEY, self.device_id, watchdog.ATTRIBUTE_CITY_ERRORS_MQTT), json.dumps(city_errors))
-        #self.mqtt_client.publish("/{}/{}/attrs/{}".format(watchdog.MQTT_API_KEY, self.device_id, watchdog.ATTRIBUTE_SENSOR_ERRORS_MQTT), json.dumps(sensor_errors))
-        #self.mqtt_client.publish("/{}/{}/attrs".format(watchdog.MQTT_API_KEY, self.device_id), json.dumps({watchdog.ATTRIBUTE_SENSOR_ERRORS_MQTT : sensor_errors}))
-        
-        #self.mqtt_client.publish("/1234/DevID31701Watchdog/attrs/es", '{3 : 4}')
-        self.mqtt_client.publish("/1234/DevID31701Watchdog/attrs/es", '{3 : 4')
-        #self.mqtt_client.publish("/1234/DevID31701Watchdog/attrs/es", '{5 : 4}')
-        #self.mqtt_client.publish("/1234/DevID31701Watchdog/attrs/es", 'asdf')
-        self.mqtt_client.publish("/1234/DevID31701Watchdog/attrs", '{"ec": replace }') #{"left": 4, "right" : 5}
-        print (json.dumps({watchdog.ATTRIBUTE_SENSOR_ERRORS_MQTT : "ASDF"}))
+        # The watchdog was intented to use compunds! since compounds do not work over mqtt and we don't have the time left to implement using rest, we push strings
+        # With rest interface, we even could had used the metadata in this application instead of subscribtion
+        self.mqtt_client.publish("/1234/DevID31701Watchdog/attrs/es", str(sensor_errors)) 
+        self.mqtt_client.publish("/1234/DevID31701Watchdog/attrs/ec", str(city_errors))
         return True # how to check if it was successfull?
     
     def add_city(self, city_mqtt_name):
@@ -180,7 +195,5 @@ watchdog.COMMANDS['RemoveCity'] =  watchdog.remove_city
 
 if __name__ is '__main__':
     import time
-    w = watchdog();
-    while True:
-        w.update()
-        time.sleep(15)
+    w = watchdog(1);
+    w.loop_start()

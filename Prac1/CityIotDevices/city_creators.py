@@ -135,7 +135,7 @@ def get_city_owm_id_and_iata(name):
     owa_name = r.json()['name']
 
     # get the city id of openweathermap
-    r = requests.get('https://iatacodes.org/api/v6/autocomplete?query={}&api_key={}'.format(name, IATACODES_KEY))
+    r = requests.get('http://iatacodes.org/api/v6/autocomplete?query={}&api_key={}'.format(name, IATACODES_KEY))
     cities = r.json()['response']['cities']
     iata = cities[0]['code']
     iata_name = cities[0]['name']
