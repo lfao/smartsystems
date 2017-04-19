@@ -11,10 +11,12 @@ except:
     sys.path.append('../Common')
     import city_definitions
 
+# get city definitions
 MQTT_API_KEY = city_definitions.MQTT_API_KEY
 MQTT_SERVER = city_definitions.SERVER
 host = MQTT_SERVER
 
+# load ui-file from file
 qtCreatorFile = "GUI.ui"
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
@@ -28,6 +30,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
             print("Connected with result code " + str(rc))
             client.subscribe("/{}/#".format(MQTT_API_KEY))
 
+        # define callback functions for every city
         def on_message_BER(client, userdata, msg):
             if int(self.cityBox.currentIndex()) == 1:
                 self.update(json.loads(msg.payload))
@@ -64,8 +67,10 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         QtGui.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
+        # set up and connect MQTT client
         client = mqtt.Client()
         client.on_connect = on_connect
+        # add callback functions for every city
         client.message_callback_add("/{}/{}/#".format(MQTT_API_KEY, 'DevID31701BER'), on_message_BER)
         client.message_callback_add("/{}/{}/#".format(MQTT_API_KEY, 'DevID31701BUE'), on_message_BUE)
         client.message_callback_add("/{}/{}/#".format(MQTT_API_KEY, 'DevID31701CPT'), on_message_CPT)
@@ -78,7 +83,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         print("Connecting to " + host)
         client.loop_start()
 
-
+    # update subscribed data in GUI
     def update(self, data):
         self.temperature.setText(str(data['t']) + " K")
         self.humidity.setText(str(data['h']) + " %")
