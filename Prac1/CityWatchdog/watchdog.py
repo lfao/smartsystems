@@ -52,7 +52,7 @@ class watchdog(object):
         self.mqtt_client = mqtt.Client()
         self.topic_command = "/{}/{}/cmd".format(watchdog.MQTT_API_KEY, self.device_id) # topic to listen for getting commands
         self.topic_command_executed = "/{}/{}/cmdexe".format(watchdog.MQTT_API_KEY, self.device_id) # topic to puplish the results of processed commands
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger(self.device_id)
         self.city_names_dict = dict()
 
         def on_connect(client, userdata, flags, rc):
@@ -63,7 +63,6 @@ class watchdog(object):
                 self.add_city(city)
         
         def on_message(client, userdata, msg):
-            print (msg.topic)
             self.logger.info("Topic: {}, Payload: {}".format(msg.topic, msg.payload))
             if(msg.topic == self.topic_command):
                 self.do_command(msg.payload)
@@ -78,15 +77,14 @@ class watchdog(object):
         self.mqtt_client.connect(watchdog.MQTT_SERVER, watchdog.MQTT_PORT) 
         self.mqtt_client.loop_start()      
     
-    def loop_start(self, seconds = None):
+    def check_cities_forever(self, repeat_every_seconds = None):
         """
         triggers update in each given city every given time interval
         Keyword arguments:
         minutes -- time delay between two updates in minutes
         """
-        if seconds == None:
-            seconds = float(self.TIME_DELTA.total_seconds())
-            print(seconds)
+        if repeat_every_seconds == None:
+            repeat_every_seconds = float(self.TIME_DELTA.total_seconds())
 
         the_scheduler = sched.scheduler(time.time, time.sleep)
 
@@ -95,31 +93,29 @@ class watchdog(object):
             triggers one update and enter a new time to scheduler
             """
             self.check_cities()
-            the_scheduler.enter(seconds, 1, do_check_cities, ())
+            the_scheduler.enter(repeat_every_seconds, 1, do_check_cities, ())
 
         # start every city at the beginning with an offset
-        the_scheduler.enter(seconds, 1, do_check_cities, ())
+        the_scheduler.enter(repeat_every_seconds, 1, do_check_cities, ())
 
         # start the scheduler to run forever
         the_scheduler.run()
-
 
     def check_cities(self):
         """
 
         """
         now = datetime.datetime.now()
-        city_errors = { city_mqtt_name : str(max(city_attributes.values()))
+        city_errors = [ (city_mqtt_name , str(max(city_attributes.values())))
             for city_mqtt_name, city_attributes in self.city_names_dict.items() 
-            if all(update_time + self.TIME_DELTA < now for update_time in city_attributes.values())}
+            if all(update_time + self.TIME_DELTA < now for update_time in city_attributes.values())]
         
-        sensor_errors = [{ COMBOUND_CITY_NAME : city_mqtt_name, COMBOUND_ATTRIBUT_LAST_UPDATE : str(update_time),
-            COMBOUND_ATTRIBUT_REST_NAME : watchdog.WATCHDOG_ATTRIBUTES[attribute_name], COMBOUND_ATTRIBUT_MQTT_NAME : attribute_name } 
-            for city_mqtt_name, city_attributes in self.city_names_dict.items() if city_mqtt_name not in city_errors
-            for attribute_name , update_time in city_attributes if update_time + self.TIME_DELTA < now]
+        sensor_errors = [(city_mqtt_name, attribute_name, str(update_time), watchdog.WATCHDOG_ATTRIBUTES[attribute_name])
+            for city_mqtt_name, city_attributes in self.city_names_dict.items() if not all(update_time + self.TIME_DELTA < now for update_time in city_attributes.values())
+            for attribute_name , update_time in city_attributes.items() if update_time + self.TIME_DELTA < now]
         
-        print (str(city_errors))
-        print (str(sensor_errors))
+        self.logger.info("Pushing following city errors: {}".format(str(city_errors)))
+        self.logger.info("Pushing following sensor errors: {}".format(str(sensor_errors)))
 
         # The watchdog was intented to use compunds! since compounds do not work over mqtt and we don't have the time left to implement using rest, we push strings
         # With rest interface, we even could had used the metadata in this application instead of subscribtion
@@ -179,8 +175,8 @@ class watchdog(object):
             json.dumps({command_name : tryApply(command_name, command_value) for command_name, command_value in dict_mqtt_json.items() if command_name in watchdog.COMMANDS}))
 
     def register_update(self, city, payload):
-        print(city)
         payload_dict = json.loads(payload.decode("utf-8"))
+        self.logger.info('Registered update from "{}" for following attributs "{}"'.format(city, list(payload_dict.keys())))
         if city in self.city_names_dict:
             for attribute in payload_dict.keys():
                 if attribute in self.city_names_dict[city]:
@@ -194,6 +190,6 @@ watchdog.COMMANDS['RemoveCity'] =  watchdog.remove_city
 #watchdog.COMMAND_MATCHES.append( (('r','RemoveCity', 'Name'), watchdog.remove_city))
 
 if __name__ is '__main__':
-    import time
-    w = watchdog(1);
-    w.loop_start()
+    logging.basicConfig(level=logging.INFO)
+    w = watchdog();
+    w.check_cities_forever(1)
