@@ -119,8 +119,8 @@ class watchdog(object):
             for city_mqtt_name, city_attributes in self.city_names_dict.items() if not all(update_time + self.TIME_DELTA < now for update_time in city_attributes.values())
             for attribute_name , update_time in city_attributes.items() if update_time + self.TIME_DELTA < now]
         
-        city_errors_str   = str(city_errors  ).replace("'","").replace('(','[').replace(')',']') # This is a fast implemented workaround because compounds does not work
-        sensor_errors_str = str(sensor_errors).replace("'","").replace('(','[').replace(')',']') # This is a fast implemented workaround because compounds does not work
+        city_errors_str   = str(city_errors  ).replace("'","").replace('(','[').replace(')',']') # This is a fast implemented workaround because compounds do not work
+        sensor_errors_str = str(sensor_errors).replace("'","").replace('(','[').replace(')',']') # This is a fast implemented workaround because compounds do not work
         self.logger.info("Pushing following city errors: {}".format(city_errors_str))
         self.logger.info("Pushing following sensor errors: {}".format(sensor_errors_str))
 

@@ -35,5 +35,5 @@ city_list = [city_creators.get_city_by_name(name) for name in city_name_list]
 #city_list = [city_creators.create_city_by_name(name) for name in city_name_list] 
 
 #start updating the cities constantly
-city_scheduler.repeat(1.0/6, *city_list)
+city_scheduler.repeat(1.0/60,cities_delay_seconds = 0, *city_list)
 
