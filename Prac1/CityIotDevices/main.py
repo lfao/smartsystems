@@ -18,8 +18,6 @@ logging.basicConfig(level=logging.INFO)
 #muc = city_creators.create_city(city_owm_id = 6940463, iata = 'MUC', city_name = 'Munich')
 #muc = city_creators.create_city_by_name('Munich') #create city object and iot Agent
 
-#print (muc)
-
 #create city objects in a list 
 #pair_owmid_iata_list = [(6940463, 'MUC'), (3117735, 'MAD'), (5128581, 'NYC'),  (1796236, 'SHA')]
 #city_list = ([city.city(*pair_owmid_iata) for pair_owmid_iata in pair_owmid_iata_list]
@@ -35,5 +33,7 @@ city_list = [city_creators.get_city_by_name(name) for name in city_name_list]
 #city_list = [city_creators.create_city_by_name(name) for name in city_name_list] 
 
 #start updating the cities constantly
-city_scheduler.repeat(1.0/60,cities_delay_seconds = 0, *city_list)
+city_scheduler.repeat(1.0/6, *city_list)
 
+#DEMO GUI
+#city_scheduler.repeat(1.0/60,cities_delay_seconds = 0, *city_list)
