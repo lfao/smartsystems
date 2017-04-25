@@ -20,4 +20,4 @@ The Project GUI containts a pyQT GUI for displaying the last updated values of t
 
 ## Pract3
 In the folder widget there are all necessary components of the newly developed widget including the .wgt file. 
-Furthermore here is the documentation of the whole dashboard as well.
+Furthermore there can be found the documentation of the whole dashboard and a website (index.htlm) with the dashboard included.
