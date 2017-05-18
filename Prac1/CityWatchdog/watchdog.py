@@ -32,7 +32,7 @@ class watchdog(object):
     ATTRIBUTE_SENSOR_ERRORS_MQTT = "es"
 
     WATCHDOG_ATTRIBUTES = { name_mqtt: name_rest for ((name_mqtt, name_rest, _), _) in city_definitions.ATTRIBUTE_MATCHES}
-    #WATCHDOG_ATTRIBUTES["er"] = "Doesnotexist" # Add not existing command for debug reasons
+    WATCHDOG_ATTRIBUTES["error"] = "Doesnotexist" # Add not existing command for debug reasons
     
     COMBOUND_ATTRIBUT_LAST_NAME = "LastUpdate"
     COMBOUND_ATTRIBUT_MQTT_NAME = "MQTT"
@@ -218,5 +218,5 @@ watchdog.COMMANDS['RemoveCity'] =  watchdog.remove_city
 
 if __name__ is '__main__':
     logging.basicConfig(level=logging.INFO)
-    w = watchdog(initial_cities = ['DevID31701MUC']);
+    w = watchdog(initial_cities = ['DevID31701MUC'], time_delta = 15);
     w.check_cities_forever(1)

@@ -37,7 +37,7 @@ USER = '31701'
 
 ## Definitions for cities only
 MQTT_API_KEY = 1234  # The apikey for using the MQTT API
-OWM_KEY = 'abacdae90c8800879db8e02327da1f92' # The apikey for using the openweathermap API
+OWM_KEY = '57f23632e5d1864b46abcd6c51a0fc1f' # 'abacdae90c8800879db8e02327da1f92' # The apikey for using the openweathermap API
 MQTT_SERVER = SERVER # The IP of the MQTT API 
 MQTT_PORT = 1883 # The Port of the MQTT API 
 DEVICE_BASISNAME_MQTT = 'DevID' + USER # The first part of the names of Devices in MQTT API 
