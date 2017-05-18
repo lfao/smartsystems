@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="ATeam" name="cloudwidget" version="0.1.0">
+<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="The A-Team" name="Cloud Display" version="0.1.0">
 
     <details>
-        <title>Cloud Widget</title>
-        <homepage>https://google.com</homepage>
-        <authors>ATeam</authors>
+        <title>Cloud Display</title>
+        <homepage>https://github.com/lfao/smartsystems/tree/master/Prac3</homepage>
+        <authors>The A-Team</authors>
         <email>201612826@alu.comillas.edu</email>
         <image></image>
         <smartphoneimage></smartphoneimage>
-        <description>This widget visualises cloud data</description>
+        <description>This widget visualises cloud information.</description>
         <longdescription>DESCRIPTION.md</longdescription>
         <changelog>doc/changelog.md</changelog>
         <doc>doc/userguide.md</doc>
@@ -34,6 +34,6 @@
     </wiring>
 
     <contents src="index.html" useplatformstyle="true"/>
-    <rendering height="300px" width="30%"/>
+    <rendering width="500px" height="400px"/>
 
 </widget>

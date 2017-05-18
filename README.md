@@ -17,3 +17,7 @@ The script watchdog.py monitors if every city updates the required attributes re
 
 ### Project GUI
 The Project GUI containts a pyQT GUI for displaying the last updated values of the selected city. As the subscribes to the relevant data, it makes sense to modify the script main.py in order to achieve a greater frequency of published data.
+
+## Pract3
+In the folder widget there are all necessary components of the newly developed widget including the .wgt file. 
+Furthermore there can be found the documentation of the whole dashboard and a website (index.htlm) with the dashboard included.

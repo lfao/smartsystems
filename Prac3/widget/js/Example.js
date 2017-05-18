@@ -57,26 +57,27 @@ var Example = (function () {
         MashupPlatform.wiring.registerCallback('clouds', function (data) {
             // Callback for wiring events
             var tmp = JSON.parse(data);
-            alert(tmp.Clouds);
-            var clouds = tmp.Clouds;
+            var clouds = parseInt(tmp.Clouds);
             
-            function showImage() {
-                switch(true) {
-                        case(clouds <= 20):
-                            alert(clouds);
-                            break;
-                        case(clouds <= 40 && clouds > 20):
-                            break;
-                        case(clouds <= 60 && clouds > 40):
-                            break;
-                        case(clouds <= 80 && clouds > 60):
-                            break;
-                        case(clouds <= 100 && clouds > 80):
-                            break;
-                                  }
-                var img = document.getElementById('myImageId');
-                img.style.visibility = 'visible';
-            }
+            // Display weather image to correlating cloud information
+            switch(true) {
+                    case(clouds <= 20):
+                        document.getElementById("myImg").src = "images/sun.png"
+                        break;
+                    case(clouds <= 40 && clouds > 20):
+                        document.getElementById("myImg").src = "images/cloud1.png"
+                        break;
+                    case(clouds <= 60 && clouds > 40):
+                        document.getElementById("myImg").src = "images/cloud2.png"
+                        break;
+                    case(clouds <= 80 && clouds > 60):
+                        document.getElementById("myImg").src = "images/cloud3.png"
+                        break;
+                    case(clouds <= 100 && clouds > 80):
+                        document.getElementById("myImg").src = "images/cloud4.png"
+                        break;
+                    }
+            
             // Query the context broker
             this.connection.query([{
                 id: 'id'
